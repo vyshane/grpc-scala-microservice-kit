@@ -1,0 +1,20 @@
+# Java
+*.class
+
+# sbt
+.cache
+.history
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+
+# JetBrains/IntelliJ
+.idea/
+.idea_modules/
+
+# vim
+.*.sw[a-z]
