@@ -1,7 +1,7 @@
 /*
  * Project metadata
  */
-name := "grpc-scala-microservice-kit"
+name := "echod"
 version := "1.0-SNAPSHOT"
 description := "A starter kit for building microservices using gRPC and Scala"
 organization := "mu.node"
