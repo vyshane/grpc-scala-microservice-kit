@@ -6,15 +6,20 @@ import "google/api/annotations.proto";
 package echo;
 
 service EchoService {
-  rpc Send (Message) returns (Message) {
+  rpc Send (SendMessageRequest) returns (Message) {
     option (google.api.http) = {
       post: "/api/v1/echo"
     };
   }
 }
 
+message SendMessageRequest {
+  string content = 1;
+}
+
 message Message {
-  string id = 1;
-  string content = 2;
+  string message_id = 1;
+  string sender_id = 2;
+  string content = 3;
 }
 
