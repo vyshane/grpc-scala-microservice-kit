@@ -35,9 +35,10 @@ libraryDependencies ++= Seq(
   // Testing
   "org.scalatest" %% "scalatest" % "3.0.0" % "test",
   // Dependency injection
-  "com.softwaremill.macwire" %% "macros" % "2.2.4" % "provided",
-  // JSON Web Tokens
-  "com.pauldijou" %% "jwt-core" % "0.8.1"
+//  "com.softwaremill.macwire" %% "macros" % "2.2.4" % "provided",
+  // JSON Web Tokens, JSON parsing
+  "com.pauldijou" %% "jwt-core" % "0.8.1",
+  "com.typesafe.play" %% "play-json" % "2.5.8"
 )
 // gRPC and Protocol Buffers
 import com.trueaccord.scalapb.{ScalaPbPlugin => PB}
