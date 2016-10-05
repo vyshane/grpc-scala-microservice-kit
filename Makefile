@@ -1,9 +1,17 @@
-docker:
-	sbt docker:publishLocal
+.PHONY: app
+app:
+	cd app; sbt docker:publishLocal
 
-dockerpush:
-	sbt docker:publish
+pushapp:
+	cd app; sbt docker:publish
 
-test:
-	sbt clean coverage test
+testapp:
+	cd app; sbt clean coverage test
+
+.PHONY: gateway
+gateway:
+	cd gateway; echo "TODO"
+
+pushgateway:
+	cd gateway; echo "TODO"
 
