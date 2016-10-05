@@ -4,21 +4,21 @@ A starter kit for building [microservices](https://en.wikipedia.org/wiki/Microse
 
 ## Building
 
-To build a [Docker](https://www.docker.com/what-docker) image of the microservice:
+To build [Docker](https://www.docker.com/what-docker) images for the microservice:
 
 ```text
-make app
+make
 ```
 
-To build the Docker image and push it to the registry:
+To build the Docker images and push them to the registry:
 
 ```text
-make pushapp
+make push
 ```
 
 ## Running Tests
 
 ```text
-make testapp
+make test
 ```
 
