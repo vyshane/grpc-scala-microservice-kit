@@ -5,9 +5,6 @@ import java.security.PublicKey
 import com.google.common.collect.Iterables
 import io.grpc._
 import mu.node.echod.models.UserContext
-import pdi.jwt.Jwt
-
-import scala.util.{Failure, Success}
 
 /*
  * Obtain the user context by reading from the JSON Web Token that is sent as an OAuth bearer
@@ -18,16 +15,14 @@ class UserContextServerInterceptor(jwtVerificationKey: PublicKey) extends Server
   override def interceptCall[ReqT, RespT](call: ServerCall[ReqT, RespT],
                                           headers: Metadata,
                                           next: ServerCallHandler[ReqT, RespT]): ServerCall.Listener[ReqT] = {
-    val bearerToken = readBearerToken(headers)
-    if (bearerToken.isDefined) {
-      Jwt.decode(bearerToken.get, jwtVerificationKey) match {
-        case Success(jwtPayload) => {
-          val withUserContext =
-            Context.current().withValue(UserContextServerInterceptor.userContextKey, UserContext.fromJwt(jwtPayload))
-          Contexts.interceptCall(withUserContext, call, headers, next)
-        }
-        case Failure(e) => call.close(Status.UNAUTHENTICATED, headers)
+    readBearerToken(headers).foreach { token =>
+      val userContext = UserContext.fromJwt(token, jwtVerificationKey)
+      if (userContext.isEmpty) {
+        // This ostensibly authenticated RPC call did not validate
+        call.close(Status.UNAUTHENTICATED, headers)
       }
+      val withUserContext = Context.current().withValue(UserContextServerInterceptor.userContextKey, userContext)
+      Contexts.interceptCall(withUserContext, call, headers, next)
     }
     next.startCall(call, headers)
   }
@@ -48,4 +43,3 @@ class UserContextServerInterceptor(jwtVerificationKey: PublicKey) extends Server
 object UserContextServerInterceptor {
   val userContextKey: Context.Key[Option[UserContext]] = Context.key("user_context")
 }
-
