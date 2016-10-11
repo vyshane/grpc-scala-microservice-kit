@@ -37,7 +37,7 @@ libraryDependencies ++= Seq(
   // Dependency injection
 //  "com.softwaremill.macwire" %% "macros" % "2.2.4" % "provided",
   // JSON Web Tokens, JSON parsing
-  "com.pauldijou" %% "jwt-core" % "0.8.1",
+  "com.pauldijou" %% "jwt-core" % "0.9.0",
   "com.typesafe.play" %% "play-json" % "2.5.8"
 )
 // gRPC and Protocol Buffers
