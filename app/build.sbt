@@ -37,19 +37,21 @@ libraryDependencies ++= Seq(
   // Dependency injection
 //  "com.softwaremill.macwire" %% "macros" % "2.2.4" % "provided",
   // JSON Web Tokens, JSON parsing
-  "com.pauldijou" %% "jwt-core" % "0.9.0",
-  "com.typesafe.play" %% "play-json" % "2.5.8"
+  "com.pauldijou"     %% "jwt-core"  % "0.9.0",
+  "com.typesafe.play" %% "play-json" % "2.5.8",
 )
 // gRPC and Protocol Buffers
-import com.trueaccord.scalapb.{ScalaPbPlugin => PB}
 libraryDependencies ++= Seq(
-  "io.grpc"                % "grpc-netty"                      % "1.0.0",
-  "com.trueaccord.scalapb" %% "scalapb-runtime-grpc"           % (PB.scalapbVersion in PB.protobufConfig).value,
+  "io.grpc"                % "grpc-netty"                      % "1.0.1",
+  "io.grpc"                % "grpc-stub"                       % "1.0.1",
+  "io.grpc"                % "grpc-auth"                       % "1.0.1",
+  "com.trueaccord.scalapb" %% "scalapb-runtime-grpc"           % "0.5.43",
   "io.netty"               % "netty-tcnative-boringssl-static" % "1.1.33.Fork22" // SSL support
 )
-PB.protobufSettings
-PB.flatPackage in PB.protobufConfig := true
-PB.runProtoc in PB.protobufConfig := (args => com.github.os72.protocjar.Protoc.runProtoc("-v300" +: args.toArray))
+
+PB.targets in Compile := Seq(
+  scalapb.gen(grpc = true, flatPackage = true) -> (sourceManaged in Compile).value
+)
 
 /*
  * Code coverage via scoverage
