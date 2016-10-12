@@ -5,25 +5,42 @@ import mu.node.echod.util.KeyUtils
 import pdi.jwt.Jwt
 
 class UserContextSpec extends BaseSpec with KeyUtils {
-  val jwtSigningKey = loadPrivateKey(pathForTestResourcePath(config.getString("jwt.signing-key")))
+  val jwtSigningKey = loadPkcs8PrivateKey(pathForTestResourcePath(config.getString("jwt.signing-key")))
 
   "The UserContext companion object" when {
 
     val userId = "8d5921be-8f85-11e6-ae22-56b6b6499611"
-    val claim  = s"""{ sub: "$userId" }"""
+    val validClaim  = s"""{ "sub": "$userId" }"""
 
-    "asked to create a UserContext from a valid JWT" should {
+    "asked to create a UserContext from a valid, signed JWT" should {
       "return the UserContext" in {
-        val validJwt = Jwt.encode(claim, jwtSigningKey, jwtDsa)
-        UserContext.fromJwt(validJwt, jwtVerificationKey) shouldEqual UserContext(userId)
+        val validJwt = Jwt.encode(validClaim, jwtSigningKey, jwtDsa)
+        UserContext.fromJwt(validJwt, jwtVerificationKey) shouldEqual Some(UserContext(userId))
       }
     }
 
-    "asked to create UserContext from an invalid JWT" should {
+    "asked to create UserContext from an unsigned JWT" should {
       "return None" in {
-        val unsignedJwt = Jwt.encode(claim)
+        val unsignedJwt = Jwt.encode(validClaim)
         UserContext.fromJwt(unsignedJwt, jwtVerificationKey) shouldEqual None
+      }
+    }
+
+    "asked to create UserContext from a JWT with an invalid claim" should {
+      "return None" in {
+        val invalidClaim  = s"""{ "unknownField": "value" }"""
+        val invalidJwt = Jwt.encode(invalidClaim, jwtSigningKey, jwtDsa)
+        UserContext.fromJwt(invalidJwt, jwtVerificationKey) shouldEqual None
+      }
+    }
+
+    "asked to create UserContext from a JWT with an invalid payload" should {
+      "return None" in {
+        val invalidPayload  = "malformed JSON"
+        val invalidJwt = Jwt.encode(invalidPayload, jwtSigningKey, jwtDsa)
+        UserContext.fromJwt(invalidJwt, jwtVerificationKey) shouldEqual None
       }
     }
   }
 }
+

@@ -31,14 +31,14 @@ function create_jwt_signing_key_pair {
         -topk8 \
         -inform pem \
         -in ${working_directory}/${keyname}-private.rsa \
-        -outform pem \
+        -outform der \
         -nocrypt \
         -out ${working_directory}/${keyname}-private.pem
 
     openssl rsa \
         -in ${working_directory}/${keyname}-private.rsa \
         -pubout \
-        -outform pem \
+        -outform der \
         -out ${working_directory}/${keyname}-public.pem
 
     cp ${working_directory}/${keyname}-private.pem $destination_directory

@@ -11,7 +11,7 @@ import mu.node.echod.services.EchoService
 trait EchodModule extends KeyUtils {
   lazy val config = ConfigFactory.load()
   lazy val echoService = new EchoService
-  lazy val jwtVerificationKey = loadPublicKey(config.getString("jwt.signature-verification-key"))
+  lazy val jwtVerificationKey = loadX509PublicKey(config.getString("jwt.signature-verification-key"))
   lazy val userContextServerInterceptor = new UserContextServerInterceptor(jwtVerificationKey)
   lazy val echoServer = EchoServer.build(config, echoService, userContextServerInterceptor)
 }

@@ -15,9 +15,9 @@ object EchoClient extends FileUtils {
 
     val sslContext = GrpcSslContexts
       .forClient()
-      .keyManager(fileForConfiguredPath(config.getString("ssl.client-certificate-path")),
-                  fileForConfiguredPath(config.getString("ssl.client-private-key-path")))
-      .trustManager(fileForConfiguredPath(config.getString("ssl.server-ca-certificate-path")))
+      .keyManager(fileForConfiguredPath(config.getString("ssl.client-certificate")),
+                  fileForConfiguredPath(config.getString("ssl.client-private-key")))
+      .trustManager(fileForConfiguredPath(config.getString("ssl.server-ca-certificate")))
       .build()
 
     val channel =
