@@ -2,7 +2,17 @@
 
 A starter kit for building [microservices](https://en.wikipedia.org/wiki/Microservices) using [gRPC](http://www.grpc.io) and [Scala](http://www.scala-lang.org).
 
-## Building
+The gRPC server is [set up to use TLS](https://github.com/grpc/grpc-java/blob/master/SECURITY.md#transport-security-tls) out of the box. [Mutual authentication](https://en.wikipedia.org/wiki/Transport_Layer_Security#Client-authenticated_TLS_handshake) is also implemented.
+
+User sessions are propagated as [JSON Web Tokens](https://jwt.io) through the `Authorization` HTTP header using the `Bearer` schema. JWTs are signed and verified using RS256.
+
+# Configuration
+
+The application can be [configured](app/src/main/resources/application.conf) through environment variables.
+
+[Utility scripts](util/) are provided to generate keys and SSL assets.
+
+# Building
 
 To build [Docker](https://www.docker.com/what-docker) images for the microservice:
 
@@ -16,7 +26,7 @@ To build the Docker images and push them to the registry:
 make push
 ```
 
-## Running Tests
+# Running Tests
 
 ```text
 make test
