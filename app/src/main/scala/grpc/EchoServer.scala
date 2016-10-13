@@ -31,8 +31,8 @@ object EchoServer extends FileUtils {
 
     NettyServerBuilder
       .forPort(config.getInt("server-port"))
-      .addService(ServerInterceptors.intercept(echoGrpcService, userContextServerInterceptor))
       .sslContext(sslContext)
+      .addService(ServerInterceptors.intercept(echoGrpcService, userContextServerInterceptor))
       .build()
   }
 }

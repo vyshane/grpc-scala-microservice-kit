@@ -3,7 +3,7 @@ package mu.node.echod.grpc
 import java.io.File
 
 import com.typesafe.config.Config
-import io.grpc.netty.{GrpcSslContexts, NettyChannelBuilder}
+import io.grpc.netty.{GrpcSslContexts, NegotiationType, NettyChannelBuilder}
 import mu.node.echo.EchoServiceGrpc
 import mu.node.echod.util.FileUtils
 
@@ -21,7 +21,11 @@ object EchoClient extends FileUtils {
       .build()
 
     val channel =
-      NettyChannelBuilder.forAddress("localhost", config.getInt("server-port")).sslContext(sslContext).build()
+      NettyChannelBuilder
+        .forAddress("localhost", config.getInt("server-port"))
+        .negotiationType(NegotiationType.TLS)
+        .sslContext(sslContext)
+        .build()
 
     EchoServiceGrpc.stub(channel)
   }

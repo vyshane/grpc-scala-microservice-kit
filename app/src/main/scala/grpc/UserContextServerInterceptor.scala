@@ -15,16 +15,15 @@ class UserContextServerInterceptor(jwtVerificationKey: PublicKey) extends Server
   override def interceptCall[ReqT, RespT](call: ServerCall[ReqT, RespT],
                                           headers: Metadata,
                                           next: ServerCallHandler[ReqT, RespT]): ServerCall.Listener[ReqT] = {
-    readBearerToken(headers).foreach { token =>
-      val userContext = UserContext.fromJwt(token, jwtVerificationKey)
-      if (userContext.isEmpty) {
-        // This ostensibly authenticated RPC call did not validate
-        call.close(Status.UNAUTHENTICATED, headers)
-      }
-      val withUserContext = Context.current().withValue(UserContextServerInterceptor.userContextKey, userContext)
+    readBearerToken(headers) flatMap { token =>
+      UserContext.fromJwt(token, jwtVerificationKey)
+    } map { userContext =>
+      val withUserContext =
+        Context.current().withValue[UserContext](UserContextServerInterceptor.userContextKey, userContext)
       Contexts.interceptCall(withUserContext, call, headers, next)
+    } getOrElse {
+      next.startCall(call, headers)
     }
-    next.startCall(call, headers)
   }
 
   private def readBearerToken(headers: Metadata): Option[String] = {
@@ -41,5 +40,5 @@ class UserContextServerInterceptor(jwtVerificationKey: PublicKey) extends Server
 }
 
 object UserContextServerInterceptor {
-  val userContextKey: Context.Key[Option[UserContext]] = Context.key("user_context")
+  val userContextKey: Context.Key[UserContext] = Context.key("user_context")
 }
