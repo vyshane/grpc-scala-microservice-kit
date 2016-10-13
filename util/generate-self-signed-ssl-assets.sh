@@ -36,7 +36,7 @@ function create_self_signed_certificate_assets {
         -key ${working_directory}/${hostname}-ca-key.rsa \
         -days 10000 \
         -out ${working_directory}/${hostname}-ca-cert.pem \
-        -subj "/CN=overlap-ca"
+        -subj "/CN=node-mu-ca"
     
     cat > $working_directory/openssl.cnf <<EOL
 [req]
