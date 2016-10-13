@@ -46,7 +46,7 @@ libraryDependencies ++= Seq(
   "io.grpc"                % "grpc-stub"                       % "1.0.1",
   "io.grpc"                % "grpc-auth"                       % "1.0.1",
   "com.trueaccord.scalapb" %% "scalapb-runtime-grpc"           % "0.5.43",
-  "io.netty"               % "netty-tcnative-boringssl-static" % "1.1.33.Fork22" // SSL support
+  "io.netty"               % "netty-tcnative-boringssl-static" % "1.1.33.Fork19" // SSL support
 )
 
 PB.targets in Compile := Seq(
