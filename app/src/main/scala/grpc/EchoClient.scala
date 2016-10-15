@@ -9,9 +9,9 @@ import mu.node.echod.util.FileUtils
 
 object EchoClient extends FileUtils {
 
-  def buildServiceStub(
-      config: Config,
-      fileForConfiguredPath: (String) => File = fileForAbsolutePath): EchoServiceGrpc.EchoServiceStub = {
+  def buildServiceStub(config: Config,
+                       fileForConfiguredPath: (String) => File = fileForAbsolutePath)
+    : EchoServiceGrpc.EchoServiceStub = {
 
     val sslContext = GrpcSslContexts
       .forClient()
@@ -20,12 +20,11 @@ object EchoClient extends FileUtils {
       .trustManager(fileForConfiguredPath(config.getString("ssl.server-ca-certificate")))
       .build()
 
-    val channel =
-      NettyChannelBuilder
-        .forAddress("localhost", config.getInt("server-port"))
-        .negotiationType(NegotiationType.TLS)
-        .sslContext(sslContext)
-        .build()
+    val channel = NettyChannelBuilder
+      .forAddress("localhost", config.getInt("server-port"))
+      .negotiationType(NegotiationType.TLS)
+      .sslContext(sslContext)
+      .build()
 
     EchoServiceGrpc.stub(channel)
   }

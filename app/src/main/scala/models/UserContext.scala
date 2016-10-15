@@ -32,5 +32,6 @@ object UserContext extends KeyUtils {
       .flatMap(json => (json \ "sub").asOpt[String].map(UserContext(_)))
   }
 
-  private def notExpired(expiryMillis: Long): Boolean = expiryMillis > Calendar.getInstance().getTimeInMillis
+  private def notExpired(expiryMillis: Long): Boolean =
+    expiryMillis > Calendar.getInstance().getTimeInMillis
 }

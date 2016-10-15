@@ -8,4 +8,3 @@ object EchodApplication extends EchodModule {
     echoServer.start().awaitTermination()
   }
 }
-

@@ -37,16 +37,16 @@ libraryDependencies ++= Seq(
   // Dependency injection
 //  "com.softwaremill.macwire" %% "macros" % "2.2.4" % "provided",
   // JSON Web Tokens, JSON parsing
-  "com.pauldijou"     %% "jwt-core"  % "0.9.0",
+  "com.pauldijou" %% "jwt-core" % "0.9.0",
   "com.typesafe.play" %% "play-json" % "2.5.8"
 )
 // gRPC and Protocol Buffers
 libraryDependencies ++= Seq(
-  "io.grpc"                % "grpc-netty"                      % "1.0.1",
-  "io.grpc"                % "grpc-stub"                       % "1.0.1",
-  "io.grpc"                % "grpc-auth"                       % "1.0.1",
-  "com.trueaccord.scalapb" %% "scalapb-runtime-grpc"           % "0.5.43",
-  "io.netty"               % "netty-tcnative-boringssl-static" % "1.1.33.Fork19" // SSL support
+  "io.grpc" % "grpc-netty" % "1.0.1",
+  "io.grpc" % "grpc-stub" % "1.0.1",
+  "io.grpc" % "grpc-auth" % "1.0.1",
+  "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % "0.5.43",
+  "io.netty" % "netty-tcnative-boringssl-static" % "1.1.33.Fork19" // SSL support
 )
 
 PB.targets in Compile := Seq(

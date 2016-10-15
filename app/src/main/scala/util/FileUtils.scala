@@ -7,4 +7,3 @@ trait FileUtils {
   def fileForTestResourcePath(path: String): File = new File(pathForTestResourcePath(path))
   def pathForTestResourcePath(path: String): String = getClass.getResource(path).getPath
 }
-

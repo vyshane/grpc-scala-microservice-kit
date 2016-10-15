@@ -12,14 +12,16 @@ import mu.node.echod.models.UserContext
  */
 class UserContextServerInterceptor(jwtVerificationKey: PublicKey) extends ServerInterceptor {
 
-  override def interceptCall[ReqT, RespT](call: ServerCall[ReqT, RespT],
-                                          headers: Metadata,
-                                          next: ServerCallHandler[ReqT, RespT]): ServerCall.Listener[ReqT] = {
+  override def interceptCall[ReqT, RespT](
+      call: ServerCall[ReqT, RespT],
+      headers: Metadata,
+      next: ServerCallHandler[ReqT, RespT]): ServerCall.Listener[ReqT] = {
     readBearerToken(headers) flatMap { token =>
       UserContext.fromJwt(token, jwtVerificationKey)
     } map { userContext =>
-      val withUserContext =
-        Context.current().withValue[UserContext](UserContextServerInterceptor.userContextKey, userContext)
+      val withUserContext = Context
+        .current()
+        .withValue[UserContext](UserContextServerInterceptor.userContextKey, userContext)
       Contexts.interceptCall(withUserContext, call, headers, next)
     } getOrElse {
       next.startCall(call, headers)
