@@ -32,9 +32,11 @@ make push
 make test
 ```
 
-# Deployment (Work in Progress)
+# Deployment
 
-A [Helm chart](deploy/echod/) is provided for deployment to a Kubernetes cluster. To run the deployment:
+_Deployment is a work in Progress_
+
+A [Helm chart](deploy/echod/) is provided for deployment to a [Kubernetes](http://kubernetes.io) cluster. To run the deployment against your current Kubernetes context:
 
 ```text
 make deploy
