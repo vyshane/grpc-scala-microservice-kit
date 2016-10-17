@@ -1,0 +1,7 @@
+description: A starter kit for building microservices using gRPC and Scala
+name: echod
+version: 1.0.0-snapshot
+home: https://github.com/vyshane/grpc-scala-microservice-kit
+maintainers:
+  - name: Vy-Shane Xie
+    email: shane@node.mu
