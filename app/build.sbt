@@ -2,7 +2,7 @@
  * Project metadata
  */
 name := "echod"
-version := "1.0-SNAPSHOT"
+version := "1.0.0-SNAPSHOT"
 description := "A starter kit for building microservices using gRPC and Scala"
 organization := "mu.node"
 organizationHomepage := Some(url("http://node.mu"))
