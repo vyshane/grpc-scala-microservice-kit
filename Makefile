@@ -6,6 +6,10 @@ test: testapp testgateway
 
 clean: cleanapp cleangateway
 
+.PHONY: deploy
+deploy:
+	cd deploy; helm install echod
+
 .PHONY: app
 app:
 	cd app; sbt docker:publishLocal

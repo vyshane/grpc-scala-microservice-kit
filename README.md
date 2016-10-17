@@ -32,3 +32,11 @@ make push
 make test
 ```
 
+# Deployment (Work in Progress)
+
+A [Helm chart](deploy/echod/) is provided for deployment to a Kubernetes cluster. To run the deployment:
+
+```text
+make deploy
+```
+
