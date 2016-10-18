@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: echod
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: echod
+    spec:
+      containers:
+      - name: echod
+        image: vyshane/echod:1.0.0-SNAPSHOT
+        imagePullPolicy: Always
+        ports:
+        - name: grpc
+          containerPort: 8443
+      # - name: echod-gateway
+      #   image: vyshane/echod-gateway:1.0.0-SNAPSHOT
+      #   imagePullPolicy: Always
+      #   ports:
+      #   - name: rest
+      #     containerPort: 9443
