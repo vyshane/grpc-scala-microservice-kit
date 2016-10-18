@@ -12,6 +12,7 @@ organizationHomepage := Some(url("http://node.mu"))
  */
 enablePlugins(JavaAppPackaging)
 enablePlugins(DockerPlugin)
+enablePlugins(AshScriptPlugin)
 import com.typesafe.sbt.packager.docker._
 maintainer in Docker := "Vy-Shane Xie <shane@node.mu>"
 dockerBaseImage := "openjdk:8-jre-alpine"
