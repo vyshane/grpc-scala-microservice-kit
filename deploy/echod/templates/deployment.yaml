@@ -12,7 +12,6 @@ spec:
       containers:
       - name: echod
         image: vyshane/echod:1.0.0-SNAPSHOT
-        imagePullPolicy: Always
         ports:
         - name: grpc
           containerPort: 8443
