@@ -25,14 +25,14 @@ cleanapp:
 
 .PHONY: gateway
 gateway:
-	cd gateway;  # TODO: Build Docker image for gateway
+	cd gateway; make docker
 
 pushgateway:
-	cd gateway;  # TODO: Build and push Docker image for gateway
+	cd gateway; make push
 
 testgateway:
 	cd gateway;  # TODO: Run tests for gateway
 
 cleangateway:
-	cd gateway;  # TODO: Clean gateway
+	cd gateway;  make clean
 

@@ -15,9 +15,8 @@ spec:
         ports:
         - name: grpc
           containerPort: 8443
-      # - name: echod-gateway
-      #   image: vyshane/echod-gateway:1.0.0-SNAPSHOT
-      #   imagePullPolicy: Always
-      #   ports:
-      #   - name: rest
-      #     containerPort: 9443
+      - name: echo-gateway
+        image: vyshane/echo-gateway:1.0.0-SNAPSHOT
+        ports:
+        - name: json
+          containerPort: 9443

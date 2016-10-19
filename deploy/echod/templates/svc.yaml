@@ -9,8 +9,8 @@ spec:
   - name: grpc
     port: 8443
     targetPort: grpc
-  # - name: rest
-  #   port: 9443
-  #   targetPort: rest
+  - name: json
+    port: 9443
+    targetPort: json
   selector:
     app: echod
