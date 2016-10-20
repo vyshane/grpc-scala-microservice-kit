@@ -1,22 +1,70 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: echod
+  name: {{.Values.app}}
 spec:
-  replicas: 1
+  replicas: {{.Values.replicas}}
   template:
     metadata:
       labels:
-        app: echod
+        app: {{.Values.app}}
+        project: {{.Values.project}}
     spec:
       containers:
-      - name: echod
-        image: vyshane/echod:1.0.0-SNAPSHOT
+      # App
+      - name: {{.Values.app}}
+        image: {{.Values.imageRepository}}/{{.Values.app}}:{{.Values.version}}
+        volumeMounts:
+        - name: {{.Values.app}}-server-secrets
+          mountPath: /etc/secrets/{{.Values.app}}-server
+          readOnly: true
+        - name: jwt-verification-secret
+          mountPath: /etc/secrets/jwt-verification
+          readOnly: true
         ports:
         - name: grpc
           containerPort: 8443
-      - name: echo-gateway
-        image: vyshane/echo-gateway:1.0.0-SNAPSHOT
+        env:
+        - name: SSL_CERTIFICATE_PATH
+          value: /etc/secrets/{{.Values.app}}-server/{{.Values.app}}-server-cert.pem
+        - name: SSL_PRIVATE_KEY_PATH
+          value: /etc/secrets/{{.Values.app}}-server/{{.Values.app}}-server-key.pem
+        - name: SSL_CLIENT_CA_CERTIFICATE_PATH
+          value: /etc/secrets/{{.Values.app}}-server/{{.Values.app}}-client-ca-cert.pem
+        - name: JWT_SIGNATURE_VERIFICATION_KEY_PATH
+          value: /etc/secrets/jwt-verification/jwt-signature-verification-key.pem
+      # Gateway
+      - name: {{.Values.app}}-gateway
+        image: {{.Values.imageRepository}}/{{.Values.app}}-gateway:{{.Values.version}}
+        volumeMounts:
+        - name: {{.Values.app}}-client-secrets
+          mountPath: /etc/secrets/{{.Values.app}}-client
+          readOnly: true
         ports:
         - name: json
           containerPort: 9443
+        env:
+        - name: GATEWAY_PORT
+          value: "9443"
+        - name: CORS_ALLOWED_ORIGINS
+          value: "{{.Values.corsAllowedOrigins}}"
+        - name: BACKEND_HOST
+          value: {{.Values.app}}
+        - name: BACKEND_PORT
+          value: $({{.Values.app}}_SERVICE_PORT_GRPC)
+        - name: SSL_CA_CERTIFICATE_PATH
+          value: /etc/secrets/{{.Values.app}}-client/{{.Values.app}}-ca-cert.pem
+        - name: SSL_CLIENT_CERTIFICATE_PATH
+          value: /etc/secrets/{{.Values.app}}-client/{{.Values.app}}-client-cert.pem
+        - name: SSL_CLIENT_PRIVATE_KEY_PATH
+          value: /etc/secrets/{{.Values.app}}-client/{{.Values.app}}-client-key.pem
+      volumes:
+      - name: {{.Values.app}}-server-secrets
+        secret:
+          secretName: echod-server
+      - name: {{.Values.app}}-client-secrets
+        secret:
+          secretName: {{.Values.app}}-client
+      - name: jwt-verification-secret
+        secret:
+          secretName: {{.Values.jwtVerificationSecret}}
