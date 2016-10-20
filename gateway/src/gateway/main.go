@@ -15,7 +15,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
-	echoGrpc "gateway/generated/echo"
+	echodGrpc "gateway/generated/echod"
 )
 
 var (
@@ -23,7 +23,7 @@ var (
 	clientPrivateKeyPath = os.Getenv("SSL_CLIENT_PRIVATE_KEY_PATH")
 	serverCaCertPath     = os.Getenv("SSL_CA_CERTIFICATE_PATH")
 	backend              = os.Getenv("BACKEND_HOST") + ":" + os.Getenv("BACKEND_PORT")
-	swaggerDir           = "generated/echo"
+	swaggerDir           = "generated/echod"
 )
 
 func run() error {
@@ -36,7 +36,7 @@ func run() error {
 	if err != nil {
 		return err
 	}
-	err = echoGrpc.RegisterEchoServiceHandlerFromEndpoint(ctx, mux, backend, dialOptions)
+	err = echodGrpc.RegisterEchoServiceHandlerFromEndpoint(ctx, mux, backend, dialOptions)
 	if err != nil {
 		return err
 	}

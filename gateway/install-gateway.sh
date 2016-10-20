@@ -1,5 +1,5 @@
 #!/bin/bash
-PROTO_PACKAGE=echo
+APP=echod
 GOPATH=$(pwd):$GOPATH
 
 set -e
@@ -30,7 +30,7 @@ function generate_stubs {
         $proto_file
 }
 
-pushd src/gateway/generated/$PROTO_PACKAGE/
+pushd src/gateway/generated/$APP/
 generate_stubs "*.proto"
 popd
 
