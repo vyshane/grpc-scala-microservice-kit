@@ -42,5 +42,5 @@ class UserContextServerInterceptor(jwtVerificationKey: PublicKey) extends Server
 }
 
 object UserContextServerInterceptor {
-  def userContextKey: Context.Key[UserContext] = Context.key("user_context")
+  val userContextKey: Context.Key[UserContext] = Context.key("user_context")
 }
