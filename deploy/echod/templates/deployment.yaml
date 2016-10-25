@@ -49,11 +49,11 @@ spec:
         - name: CORS_ALLOWED_ORIGINS
           value: {{.Values.corsAllowedOrigins | quote}}
         - name: BACKEND_HOST
-          value: {{.Chart.Name}}
+          value: localhost
         - name: BACKEND_PORT
           value: $({{.Chart.Name | upper}}_SERVICE_PORT_GRPC)
         - name: SSL_CA_CERTIFICATE
-          value: /etc/secrets/{{.Chart.Name}}-client/{{.Chart.Name}}-ca-cert
+          value: /etc/secrets/{{.Chart.Name}}-client/{{.Chart.Name}}-server-ca-cert
         - name: SSL_CLIENT_CERTIFICATE
           value: /etc/secrets/{{.Chart.Name}}-client/{{.Chart.Name}}-client-cert
         - name: SSL_CLIENT_PRIVATE_KEY
