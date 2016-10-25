@@ -15,7 +15,7 @@ spec:
       - name: {{.Chart.Name}}
         image: {{.Values.imageRepository}}/{{.Chart.Name}}:{{.Values.version}}
         volumeMounts:
-        - name: {{.Chart.Name}}-server-secrets
+        - name: {{.Chart.Name}}-server-secret
           mountPath: /etc/secrets/{{.Chart.Name}}-server
           readOnly: true
         - name: jwt-verification-secret
@@ -37,7 +37,7 @@ spec:
       - name: {{.Chart.Name}}-gateway
         image: {{.Values.imageRepository}}/{{.Chart.Name}}-gateway:{{.Values.version}}
         volumeMounts:
-        - name: {{.Chart.Name}}-client-secrets
+        - name: {{.Chart.Name}}-client-secret
           mountPath: /etc/secrets/{{.Chart.Name}}-client
           readOnly: true
         ports:
@@ -59,10 +59,10 @@ spec:
         - name: SSL_CLIENT_PRIVATE_KEY
           value: /etc/secrets/{{.Chart.Name}}-client/{{.Chart.Name}}-client-key
       volumes:
-      - name: {{.Chart.Name}}-server-secrets
+      - name: {{.Chart.Name}}-server-secret
         secret:
-          secretName: echod-server
-      - name: {{.Chart.Name}}-client-secrets
+          secretName: {{.Chart.Name}}-server
+      - name: {{.Chart.Name}}-client-secret
         secret:
           secretName: {{.Chart.Name}}-client
       - name: jwt-verification-secret
