@@ -19,9 +19,9 @@ import (
 )
 
 var (
-	clientCertPath       = os.Getenv("SSL_CLIENT_CERTIFICATE_PATH")
-	clientPrivateKeyPath = os.Getenv("SSL_CLIENT_PRIVATE_KEY_PATH")
-	serverCaCertPath     = os.Getenv("SSL_CA_CERTIFICATE_PATH")
+	clientCertPath       = os.Getenv("SSL_CLIENT_CERTIFICATE")
+	clientPrivateKeyPath = os.Getenv("SSL_CLIENT_PRIVATE_KEY")
+	serverCaCertPath     = os.Getenv("SSL_CA_CERTIFICATE")
 	backend              = os.Getenv("BACKEND_HOST") + ":" + os.Getenv("BACKEND_PORT")
 	swaggerDir           = "generated/echod"
 )
