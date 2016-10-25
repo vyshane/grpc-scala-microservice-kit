@@ -1,22 +1,22 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{.Values.app}}
+  name: {{.Chart.Name}}
 spec:
   replicas: {{.Values.replicas}}
   template:
     metadata:
       labels:
-        app: {{.Values.app}}
+        app: {{.Chart.Name}}
         project: {{.Values.project}}
     spec:
       containers:
       # App
-      - name: {{.Values.app}}
-        image: {{.Values.imageRepository}}/{{.Values.app}}:{{.Values.version}}
+      - name: {{.Chart.Name}}
+        image: {{.Values.imageRepository}}/{{.Chart.Name}}:{{.Values.version}}
         volumeMounts:
-        - name: {{.Values.app}}-server-secrets
-          mountPath: /etc/secrets/{{.Values.app}}-server
+        - name: {{.Chart.Name}}-server-secrets
+          mountPath: /etc/secrets/{{.Chart.Name}}-server
           readOnly: true
         - name: jwt-verification-secret
           mountPath: /etc/secrets/jwt-verification
@@ -25,20 +25,20 @@ spec:
         - name: grpc
           containerPort: 8443
         env:
-        - name: SSL_CERTIFICATE_PATH
-          value: /etc/secrets/{{.Values.app}}-server/{{.Values.app}}-server-cert.pem
-        - name: SSL_PRIVATE_KEY_PATH
-          value: /etc/secrets/{{.Values.app}}-server/{{.Values.app}}-server-key.pem
-        - name: SSL_CLIENT_CA_CERTIFICATE_PATH
-          value: /etc/secrets/{{.Values.app}}-server/{{.Values.app}}-client-ca-cert.pem
-        - name: JWT_SIGNATURE_VERIFICATION_KEY_PATH
-          value: /etc/secrets/jwt-verification/jwt-signature-verification-key.pem
+        - name: SSL_SERVER_CERTIFICATE
+          value: /etc/secrets/{{.Chart.Name}}-server/{{.Chart.Name}}-server-cert
+        - name: SSL_SERVER_PRIVATE_KEY
+          value: /etc/secrets/{{.Chart.Name}}-server/{{.Chart.Name}}-server-key
+        - name: SSL_CLIENT_CA_CERTIFICATE
+          value: /etc/secrets/{{.Chart.Name}}-server/{{.Chart.Name}}-client-ca-cert
+        - name: JWT_SIGNATURE_VERIFICATION_KEY
+          value: /etc/secrets/jwt-verification/jwt-verification-key
       # Gateway
-      - name: {{.Values.app}}-gateway
-        image: {{.Values.imageRepository}}/{{.Values.app}}-gateway:{{.Values.version}}
+      - name: {{.Chart.Name}}-gateway
+        image: {{.Values.imageRepository}}/{{.Chart.Name}}-gateway:{{.Values.version}}
         volumeMounts:
-        - name: {{.Values.app}}-client-secrets
-          mountPath: /etc/secrets/{{.Values.app}}-client
+        - name: {{.Chart.Name}}-client-secrets
+          mountPath: /etc/secrets/{{.Chart.Name}}-client
           readOnly: true
         ports:
         - name: json
@@ -49,22 +49,22 @@ spec:
         - name: CORS_ALLOWED_ORIGINS
           value: {{.Values.corsAllowedOrigins | quote}}
         - name: BACKEND_HOST
-          value: {{.Values.app}}
+          value: {{.Chart.Name}}
         - name: BACKEND_PORT
-          value: $({{.Values.app}}_SERVICE_PORT_GRPC)
-        - name: SSL_CA_CERTIFICATE_PATH
-          value: /etc/secrets/{{.Values.app}}-client/{{.Values.app}}-ca-cert.pem
-        - name: SSL_CLIENT_CERTIFICATE_PATH
-          value: /etc/secrets/{{.Values.app}}-client/{{.Values.app}}-client-cert.pem
-        - name: SSL_CLIENT_PRIVATE_KEY_PATH
-          value: /etc/secrets/{{.Values.app}}-client/{{.Values.app}}-client-key.pem
+          value: $({{.Chart.Name | upper}}_SERVICE_PORT_GRPC)
+        - name: SSL_CA_CERTIFICATE
+          value: /etc/secrets/{{.Chart.Name}}-client/{{.Chart.Name}}-ca-cert
+        - name: SSL_CLIENT_CERTIFICATE
+          value: /etc/secrets/{{.Chart.Name}}-client/{{.Chart.Name}}-client-cert
+        - name: SSL_CLIENT_PRIVATE_KEY
+          value: /etc/secrets/{{.Chart.Name}}-client/{{.Chart.Name}}-client-key
       volumes:
-      - name: {{.Values.app}}-server-secrets
+      - name: {{.Chart.Name}}-server-secrets
         secret:
           secretName: echod-server
-      - name: {{.Values.app}}-client-secrets
+      - name: {{.Chart.Name}}-client-secrets
         secret:
-          secretName: {{.Values.app}}-client
+          secretName: {{.Chart.Name}}-client
       - name: jwt-verification-secret
         secret:
           secretName: {{.Values.jwtVerificationSecret}}
