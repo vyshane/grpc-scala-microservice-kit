@@ -15,7 +15,7 @@ enablePlugins(DockerPlugin)
 enablePlugins(AshScriptPlugin)
 import com.typesafe.sbt.packager.docker._
 maintainer in Docker := "Vy-Shane Xie <shane@node.mu>"
-dockerBaseImage := "openjdk:8-jre-alpine"
+dockerBaseImage := "openjdk:8-jre"
 dockerRepository := Some("vyshane")
 dockerUpdateLatest := true
 
