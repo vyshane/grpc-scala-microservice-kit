@@ -45,7 +45,6 @@ libraryDependencies ++= Seq(
 libraryDependencies ++= Seq(
   "io.grpc" % "grpc-netty" % "1.0.1",
   "io.grpc" % "grpc-stub" % "1.0.1",
-  "io.grpc" % "grpc-auth" % "1.0.1",
   "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % "0.5.43",
   "io.netty" % "netty-tcnative-boringssl-static" % "1.1.33.Fork19",  // SSL support
   "javassist" % "javassist" % "3.12.1.GA"  // Improves Netty performance
