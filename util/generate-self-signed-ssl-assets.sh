@@ -49,6 +49,7 @@ keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 subjectAltName = @alt_names
 [alt_names]
 DNS.1 = ${hostname}
+DNS.2 = localhost
 EOL
     
     openssl genrsa \
